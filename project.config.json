@@ -1,1 +1,48 @@
-{"setting": {"es6": true, "postcss": true, "minified": true, "uglifyFileName": false, "enhance": true, "packNpmRelationList": [], "babelSetting": {"ignore": [], "disablePlugins": [], "outputPath": ""}, "useCompilerPlugins": false, "minifyWXML": true}, "compileType": "miniprogram", "simulatorPluginLibVersion": {}, "packOptions": {"ignore": [{"type": "folder", "value": "node_modules"}, {"type": "file", "value": "package-lock.json"}, {"type": "file", "value": "package.json"}], "include": []}, "appid": "wxe57506124e6b94dd", "editorSetting": {}, "libVersion": "3.4.0"}
+{
+  "setting": {
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "uglifyFileName": false,
+    "enhance": true,
+    "packNpmRelationList": [],
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "useCompilerPlugins": false,
+    "minifyWXML": true,
+    "compileWorklet": false,
+    "uploadWithSourceMap": true,
+    "packNpmManually": false,
+    "minifyWXSS": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true
+  },
+  "compileType": "miniprogram",
+  "simulatorPluginLibVersion": {},
+  "packOptions": {
+    "ignore": [
+      {
+        "value": "node_modules",
+        "type": "folder"
+      },
+      {
+        "value": "package-lock.json",
+        "type": "file"
+      },
+      {
+        "value": "package.json",
+        "type": "file"
+      }
+    ],
+    "include": []
+  },
+  "appid": "wxe57506124e6b94dd",
+  "editorSetting": {},
+  "libVersion": "3.17.3"
+}

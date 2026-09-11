@@ -1,0 +1,76 @@
+<view class="container" wx:if="{{identity}}">
+  <!-- 我的 AITI 人格（计算结果） -->
+  <view class="identity-card">
+    <view class="label">我的人格</view>
+    <image class="identity-avatar" src="{{identity.image}}" mode="aspectFit" />
+    <view class="identity-name">{{identity.name}}</view>
+    <view class="identity-alias">{{identity.alias}} · {{identity.routeLabel}}</view>
+    <view class="identity-desc">{{identity.description}}</view>
+
+    <view class="quote-section">
+      <text class="quote-text">“{{identity.quote}}”</text>
+    </view>
+
+    <view class="section-title">人格标签</view>
+    <view class="tags">
+      <view class="tag badge" wx:for="{{identity.badges}}" wx:key="index">{{item}}</view>
+    </view>
+
+    <view class="impression-section" wx:if="{{identity.aiComment}}">
+      <view class="impression-title">AI 同事对你的印象</view>
+      <view class="impression-text">“{{identity.aiComment}}”</view>
+    </view>
+
+    <view class="profile-section" wx:if="{{identity.profile}}">
+      <view class="section-title">使用画像</view>
+      <view class="profile-text">{{identity.profile}}</view>
+    </view>
+
+    <view class="warn-section">
+      <view class="warn-title">⚠️ 翻车预警</view>
+      <view class="warn-text">{{identity.warn}}</view>
+    </view>
+  </view>
+
+  <!-- 三路线占比 -->
+  <view class="routes-card">
+    <view class="section-title">你的路线占比</view>
+    <view class="routes-hint">你和 AI 互动的三种主要姿势——哪条占得越多，你越偏那条</view>
+    <view class="route-row">
+      <view class="route-info">
+        <view class="route-name">核验</view>
+        <view class="route-desc">找茬验证</view>
+      </view>
+      <view class="route-bar"><view class="route-fill h" style="width: {{routePercents.H}}%"></view></view>
+      <view class="route-val">{{routePercents.H}}%</view>
+    </view>
+    <view class="route-row">
+      <view class="route-info">
+        <view class="route-name">校准</view>
+        <view class="route-desc">拆活派活</view>
+      </view>
+      <view class="route-bar"><view class="route-fill c" style="width: {{routePercents.C}}%"></view></view>
+      <view class="route-val">{{routePercents.C}}%</view>
+    </view>
+    <view class="route-row">
+      <view class="route-info">
+        <view class="route-name">再造</view>
+        <view class="route-desc">改成人话</view>
+      </view>
+      <view class="route-bar"><view class="route-fill r" style="width: {{routePercents.R}}%"></view></view>
+      <view class="route-val">{{routePercents.R}}%</view>
+    </view>
+    <view class="route-hint">原始得分 · 核验 {{routes.H}} / 校准 {{routes.C}} / 再造 {{routes.R}}</view>
+  </view>
+
+  <!-- 操作 -->
+  <view class="action-buttons">
+    <button class="btn-primary" bindtap="onRetest">重新测试</button>
+    <button class="btn-secondary" open-type="share">分享给朋友</button>
+    <button class="btn-secondary" bindtap="onBackHome">返回首页</button>
+  </view>
+
+  <view class="disclaimer">
+    <text>本测试仅供娱乐，不构成专业心理评估。\nAI 时代的人机关系还在演化，欢迎你按自己的方式继续定义它。</text>
+  </view>
+</view>

@@ -2,6 +2,7 @@ const app = getApp();
 
 Page({
   data: {
+    currentTab: 'nbti',
     totalTests: 8888,
     hasHistory: false,
     latestResult: null
@@ -10,6 +11,14 @@ Page({
   onLoad() {
     this.loadHistory();
     this.loadStats();
+  },
+
+  // 首页顶部 Tab 切换：牛马版 / 赛博版
+  switchTab(e) {
+    const tab = e.currentTarget.dataset.tab;
+    if (tab !== this.data.currentTab) {
+      this.setData({ currentTab: tab });
+    }
   },
 
   onShow() {
@@ -44,10 +53,24 @@ Page({
     });
   },
 
-  onViewResult() {
+  // 进入 AITI 赛博版测试（独立于 NBTI）
+  onStartAiti() {
     wx.navigateTo({
-      url: '/pages/result/result'
+      url: '/pages/aiti-test/aiti-test'
     });
+  },
+
+  onViewResult() {
+    const latest = this.data.latestResult;
+    if (latest && latest.testType === 'aiti') {
+      wx.redirectTo({
+        url: '/pages/aiti-result/aiti-result'
+      });
+    } else {
+      wx.navigateTo({
+        url: '/pages/result/result'
+      });
+    }
   },
 
   // 查看图鉴

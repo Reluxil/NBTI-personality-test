@@ -13,7 +13,6 @@
     <view wx:if="{{!hasHistory}}" class="empty-state">
       <text class="empty-icon">📝</text>
       <text class="empty-text">还没有测试记录</text>
-      <navigator url="/pages/test/test" class="empty-btn">开始测试</navigator>
     </view>
     
     <view wx:else class="history-list">

@@ -1,0 +1,109 @@
+<view class="container">
+  <!-- 渐变进度条 -->
+  <view class="progress-bar">
+    <view class="progress-fill" style="width: {{progress}}%"></view>
+  </view>
+  <view class="progress-text">第 {{currentIndex + 1}} / {{totalQuestions}} 题</view>
+
+  <block wx:if="{{currentQuestion && !isComplete}}">
+    <!-- Likert 单题 -->
+    <view class="question-card" wx:if="{{currentQuestion.type === 'likert'}}">
+      <view class="question-text">Q{{currentIndex + 1}}. {{currentQuestion.text}}</view>
+
+      <!-- A/B 并排卡片 -->
+      <view class="ab-cards">
+        <view class="ab-card {{selectedSide === 'A' ? 'selected' : ''}}">
+          <view class="ab-card-text">{{currentQuestion.optionA.text}}</view>
+          <view class="ab-badge ab-badge-a">A</view>
+        </view>
+        <view class="ab-card {{selectedSide === 'B' ? 'selected' : ''}}">
+          <view class="ab-badge ab-badge-b">B</view>
+          <view class="ab-card-text">{{currentQuestion.optionB.text}}</view>
+        </view>
+      </view>
+
+      <!-- 5 圆 Likert -->
+      <view class="likert-row">
+        <view class="likert-col">
+          <view class="likert-circle size-lg {{selectedLevel === 'va' ? 'selected' : ''}}" data-level="va" bindtap="onSelectLikert"></view>
+          <view class="likert-label">非常符合A</view>
+        </view>
+        <view class="likert-col">
+          <view class="likert-circle size-md {{selectedLevel === 'a' ? 'selected' : ''}}" data-level="a" bindtap="onSelectLikert"></view>
+          <view class="likert-label">比较符合A</view>
+        </view>
+        <view class="likert-col">
+          <view class="likert-circle size-sm {{selectedLevel === 'eq' ? 'selected' : ''}}" data-level="eq" bindtap="onSelectLikert"></view>
+          <view class="likert-label">两种都差不多</view>
+        </view>
+        <view class="likert-col">
+          <view class="likert-circle size-md {{selectedLevel === 'b' ? 'selected' : ''}}" data-level="b" bindtap="onSelectLikert"></view>
+          <view class="likert-label">比较符合B</view>
+        </view>
+        <view class="likert-col">
+          <view class="likert-circle size-lg {{selectedLevel === 'vb' ? 'selected' : ''}}" data-level="vb" bindtap="onSelectLikert"></view>
+          <view class="likert-label">非常符合B</view>
+        </view>
+      </view>
+
+      <!-- 单独"没有相似经验"按钮 -->
+      <view class="na-pill {{selectedLevel === 'na' ? 'selected' : ''}}" data-level="na" bindtap="onSelectLikert">没有相似经验（或无法判断）</view>
+
+      <!-- 底部导航 -->
+      <view class="nav-buttons">
+        <view class="btn-prev {{currentIndex === 0 ? 'disabled' : ''}}" bindtap="onPrevQuestion">前一道</view>
+        <view class="btn-next-2 {{!selectedLevel ? 'disabled' : ''}}" bindtap="onNextQuestion">后一道</view>
+      </view>
+    </view>
+
+    <!-- 场景题 -->
+    <view class="question-card" wx:elif="{{currentQuestion.type === 'scenario'}}">
+      <view class="question-text">Q{{currentIndex + 1}}. {{currentQuestion.text}}</view>
+
+      <view class="scene" wx:for="{{currentQuestion.scenes}}" wx:for-item="scene" wx:for-index="si">
+        <view class="scene-name">{{scene.name}}</view>
+        <view class="scene-prompt">{{scene.prompt}}</view>
+        <view class="scene-opts">
+          <view
+            class="opt {{scenarioAnswer['scene' + (si + 1)] === 'A' ? 'selected' : ''}}"
+            data-part="scene{{si + 1}}"
+            data-val="A"
+            bindtap="onScenarioChoice"
+          >A. {{scene.optionA.text}}</view>
+          <view
+            class="opt {{scenarioAnswer['scene' + (si + 1)] === 'B' ? 'selected' : ''}}"
+            data-part="scene{{si + 1}}"
+            data-val="B"
+            bindtap="onScenarioChoice"
+          >B. {{scene.optionB.text}}</view>
+        </view>
+      </view>
+
+      <view class="factor-prompt">{{currentQuestion.factorPrompt}}</view>
+      <view class="factor-list">
+        <view
+          class="opt factor {{scenarioAnswer.factor === item.key ? 'selected' : ''}}"
+          wx:for="{{currentQuestion.factors}}"
+          wx:key="key"
+          data-part="factor"
+          data-val="{{item.key}}"
+          bindtap="onScenarioChoice"
+        >{{item.key}}. {{item.text}}</view>
+      </view>
+
+      <view class="nav-buttons">
+        <view class="btn-prev {{currentIndex === 0 ? 'disabled' : ''}}" bindtap="onPrevQuestion">前一道</view>
+        <view class="btn-next-2 {{!scenarioAnswer.scene1 || !scenarioAnswer.scene2 || !scenarioAnswer.factor ? 'disabled' : ''}}" bindtap="onNextQuestion">后一道</view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 加载 -->
+  <view class="loading-section" wx:if="{{isComplete}}">
+    <view class="loading-icon">🤖</view>
+    <view class="loading-text">正在分析你的赛博人格...</view>
+    <view class="loading-subtext">匹配你的人机协作路线</view>
+  </view>
+
+  <view style="height: 40px;"></view>
+</view>

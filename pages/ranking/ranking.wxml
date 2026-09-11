@@ -1,8 +1,14 @@
 <view class="container">
   <!-- Header -->
   <view class="header">
-    <view class="header-title">牛马类型分布榜</view>
+    <view class="header-title">{{currentTab === 'aiti' ? '赛博类型分布榜' : '牛马类型分布榜'}}</view>
     <view class="header-desc">基于 {{totalPeople}} 次测试数据</view>
+  </view>
+
+  <!-- 顶部 Tab 切换 -->
+  <view class="tab-bar">
+    <view class="tab {{currentTab === 'nbti' ? 'active' : ''}}" data-tab="nbti" bindtap="switchTab">牛马榜</view>
+    <view class="tab {{currentTab === 'aiti' ? 'active' : ''}}" data-tab="aiti" bindtap="switchTab">赛博榜</view>
   </view>
 
   <!-- List -->
@@ -36,3 +42,4 @@
 
   <view style="height: 40px;"></view>
 </view>
+

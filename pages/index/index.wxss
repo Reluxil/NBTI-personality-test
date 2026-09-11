@@ -31,10 +31,42 @@ page {
   color: rgba(255,255,255,0.75);
 }
 
+/* 赛博版 Header 渐变 */
+.header-aiti {
+  background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%);
+}
+
+/* ===== 顶部 Tab 切换（深色 Pill）===== */
+.tab-bar {
+  display: flex;
+  background: #e8eaef;
+  margin: -20px 16px 0;
+  border-radius: 14px;
+  padding: 5px;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 14px;
+  color: #666;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.tab.active {
+  background: #0072ff;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(0,114,255,0.3);
+}
+
 /* ===== 主体内容区（白色/浅灰背景）===== */
 .body {
   padding: 16px;
-  margin-top: -20px; /* 向上延伸，与header重叠 */
+  margin-top: 12px;
 }
 
 /* ===== 卡片通用样式 ===== */
@@ -111,6 +143,37 @@ page {
 
 .card-primary .card-desc {
   color: #666;
+}
+
+/* ===== AITI 赛博版入口卡片 ===== */
+.card-aiti {
+  border-left: 4px solid #00c6ff;
+}
+
+.card-aiti .card-title {
+  color: #0072ff;
+  font-size: 17px;
+}
+
+.card-aiti .card-desc {
+  color: #666;
+}
+
+/* 赛博版玩法说明卡片（复用蓝边风格，无强调色块） */
+.card-aiti-info {
+  border-left: 4px solid #00c6ff;
+}
+
+.card-aiti-info .card-title {
+  color: #0072ff;
+}
+
+/* 分区标签 */
+.section-label {
+  font-size: 13px;
+  color: #999;
+  padding: 8px 4px 2px;
+  letter-spacing: 1px;
 }
 
 /* ===== 结果等级徽章 ===== */

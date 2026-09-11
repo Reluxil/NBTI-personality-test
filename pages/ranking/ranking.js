@@ -1,8 +1,12 @@
 const { CHARACTERS } = require('../../data/characters');
+const { IDENTITIES } = require('../../data/aiti/characters');
 
 Page({
   data: {
+    currentTab: 'nbti',
     rankings: [],
+    nbtiRankings: [],
+    aitiRankings: [],
     totalPeople: 12847
   },
 
@@ -11,8 +15,7 @@ Page({
   },
 
   generateRankings() {
-    // 模拟排行榜数据
-    const rankings = CHARACTERS
+    const nbtiRankings = CHARACTERS
       .map((char, index) => ({
         id: char.id,
         name: char.name,
@@ -25,16 +28,44 @@ Page({
       .sort((a, b) => b.count - a.count)
       .map((item, index) => ({ ...item, rank: index + 1 }));
 
-    this.setData({ rankings });
+    const aitiRankings = IDENTITIES
+      .map((char, index) => ({
+        id: char.id,
+        name: char.name,
+        alias: char.alias,
+        level: char.level,
+        badges: char.badges || [],
+        count: Math.floor(Math.random() * 2000) + 300,
+        rank: index + 1
+      }))
+      .sort((a, b) => b.count - a.count)
+      .map((item, index) => ({ ...item, rank: index + 1 }));
+
+    this.setData({
+      nbtiRankings,
+      aitiRankings,
+      rankings: nbtiRankings
+    });
+  },
+
+  switchTab(e) {
+    const tab = e.currentTarget.dataset.tab;
+    if (tab !== this.data.currentTab) {
+      this.setData({
+        currentTab: tab,
+        rankings: tab === 'aiti' ? this.data.aitiRankings : this.data.nbtiRankings
+      });
+    }
   },
 
   onItemTap(e) {
-    const characterId = e.currentTarget.dataset.id;
-    const character = CHARACTERS.find(c => c.id === characterId);
-    if (character) {
+    const charId = e.currentTarget.dataset.id;
+    const list = this.data.currentTab === 'aiti' ? this.data.aitiRankings : this.data.nbtiRankings;
+    const item = list.find(c => c.id === charId);
+    if (item) {
       wx.showModal({
-        title: character.name,
-        content: `${character.alias}\n\n${character.description}\n\n"${character.quote}"`,
+        title: item.name,
+        content: `${item.alias}\n\n${item.description || ''}\n\n"${item.quote || ''}"`,
         showCancel: false,
         confirmText: '知道了'
       });

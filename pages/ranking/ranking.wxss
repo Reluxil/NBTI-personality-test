@@ -17,6 +17,33 @@
   opacity: 0.8;
 }
 
+/* 顶部 Tab 切换（深色 Pill） */
+.tab-bar {
+  display: flex;
+  margin: 16px;
+  background: #e8eaef;
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 14px;
+  color: #666;
+  border-radius: 9px;
+  transition: all 0.2s ease;
+}
+
+.tab.active {
+  background: #0072ff;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  box-shadow: 0 4px 10px rgba(0,114,255,0.3);
+}
+
 .ranking-list {
   margin: 16px;
 }

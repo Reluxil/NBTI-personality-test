@@ -64,11 +64,15 @@ Page({
         if (mins < 10) mins = '0' + mins;
         var timeStr = month + '月' + day + '日 ' + hours + ':' + mins;
         
-        var icon = '🎭';
+        var icon = '🤖';
         if (item.character && item.character.badges && item.character.badges[0]) {
           var badgeStr = item.character.badges[0];
           if (badgeStr && typeof badgeStr === 'string') {
-            icon = badgeStr.split(' ')[0] || '🎭';
+            var first = badgeStr.split(' ')[0] || '';
+            // NBTI badge 格式为 "emoji 文字"，首个 token 是 emoji 才采用
+            if (/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(first)) {
+              icon = first;
+            }
           }
         }
         

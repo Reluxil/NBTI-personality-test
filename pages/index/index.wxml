@@ -1,84 +1,113 @@
 <view class="page">
-  <!-- 顶部 Header -->
-  <view class="header">
-    <view class="header-content">
-      <view class="header-icon">🐮</view>
-      <view class="header-title">NBTI 牛马人格测试</view>
-      <view class="header-subtitle">35道题，测出你的职场人格</view>
-    </view>
+  <!-- 顶部 Header（随 Tab 切换） -->
+  <view class="header {{currentTab === 'aiti' ? 'header-aiti' : ''}}">
+    <view class="header-icon">{{currentTab === 'nbti' ? '🐮' : '🤖'}}</view>
+    <view class="header-title">{{currentTab === 'nbti' ? 'NBTI 牛马人格测试' : 'AITI 赛博人格测试'}}</view>
+    <view class="header-subtitle">{{currentTab === 'nbti' ? '35道题，测出你的职场人格' : '22道题，测测你的 AI 时代人格是什么？'}}</view>
+  </view>
+
+  <!-- 顶部 Tab 切换 -->
+  <view class="tab-bar">
+    <view class="tab {{currentTab === 'nbti' ? 'active' : ''}}" data-tab="nbti" bindtap="switchTab">牛马版</view>
+    <view class="tab {{currentTab === 'aiti' ? 'active' : ''}}" data-tab="aiti" bindtap="switchTab">赛博版</view>
   </view>
 
   <!-- 主体内容区 -->
   <view class="body">
 
-    <!-- 开始测试卡片 -->
-    <view class="card card-primary" bindtap="onStartTest">
-      <view class="card-left">
-        <view class="card-icon">🎯</view>
-        <view class="card-text-group">
-          <view class="card-title">开始测试</view>
-          <view class="card-desc">基于真实职场场景，分析你是卷王还是躺平</view>
+    <!-- ================= 牛马版内容 ================= -->
+    <block wx:if="{{currentTab === 'nbti'}}">
+
+      <!-- 开始测试卡片（NBTI 牛马版） -->
+      <view class="card card-primary" bindtap="onStartTest">
+        <view class="card-left">
+          <view class="card-icon">🎯</view>
+          <view class="card-text-group">
+            <view class="card-title">开始测试（牛马版）</view>
+            <view class="card-desc">基于真实职场场景，分析你是卷王还是躺平</view>
+          </view>
+        </view>
+        <view class="card-arrow">›</view>
+      </view>
+
+      <!-- 最近测试结果卡片 -->
+      <view wx:if="{{hasHistory && latestResult && latestResult.testType !== 'aiti'}}" class="card" bindtap="onViewResult">
+        <view class="card-left">
+          <view class="result-badge {{latestResult.character.level === 'S' ? 'badge-s' : latestResult.character.level === 'A' ? 'badge-a' : latestResult.character.level === 'B' ? 'badge-b' : 'badge-c'}}">
+            {{latestResult.character.level}}
+          </view>
+          <view class="card-text-group">
+            <view class="card-title">{{latestResult.character.name}}</view>
+            <view class="card-desc">{{latestResult.character.alias}} · {{latestResult.character.quote}}</view>
+          </view>
+        </view>
+        <view class="card-arrow">›</view>
+      </view>
+
+      <!-- 牛马组合卡片 -->
+      <view class="card card-collection" bindtap="onViewCombination">
+        <view class="card-left">
+          <view class="card-icon">🤝</view>
+          <view class="card-text-group">
+            <view class="card-title">牛马组合</view>
+            <view class="card-desc">选择同事类型，测测你们的职场化学反应</view>
+          </view>
+        </view>
+        <view class="card-arrow">›</view>
+      </view>
+
+      <!-- 统计数据卡片 -->
+      <view class="card card-stats">
+        <view class="stats-row">
+          <view class="stat-item">
+            <view class="stat-num">{{totalTests}}</view>
+            <view class="stat-label">人已测试</view>
+          </view>
+          <view class="stat-divider"></view>
+          <view class="stat-item">
+            <view class="stat-num">16</view>
+            <view class="stat-label">种职场人格</view>
+          </view>
+          <view class="stat-divider"></view>
+          <view class="stat-item">
+            <view class="stat-num">35</view>
+            <view class="stat-label">道测试题目</view>
+          </view>
         </view>
       </view>
-      <view class="card-arrow">›</view>
-    </view>
 
-    <!-- 最近测试结果卡片 -->
-    <view wx:if="{{hasHistory && latestResult}}" class="card" bindtap="onViewResult">
-      <view class="card-left">
-        <view class="result-badge {{latestResult.character.level === 'S' ? 'badge-s' : latestResult.character.level === 'A' ? 'badge-a' : latestResult.character.level === 'B' ? 'badge-b' : 'badge-c'}}">
-          {{latestResult.character.level}}
+    </block>
+
+    <!-- ================= 赛博版内容 ================= -->
+    <block wx:if="{{currentTab === 'aiti'}}">
+
+      <!-- 开始测试卡片（AITI 赛博版） -->
+      <view class="card card-aiti" bindtap="onStartAiti">
+        <view class="card-left">
+          <view class="card-icon">🚀</view>
+          <view class="card-text-group">
+            <view class="card-title">开始测试（赛博版）</view>
+            <view class="card-desc">22 道题，看你落在哪个身份</view>
+          </view>
         </view>
-        <view class="card-text-group">
-          <view class="card-title">{{latestResult.character.name}}</view>
-          <view class="card-desc">{{latestResult.character.alias}} · {{latestResult.character.quote}}</view>
+        <view class="card-arrow">›</view>
+      </view>
+
+      <!-- 最近结果（赛博版） -->
+      <view wx:if="{{hasHistory && latestResult && latestResult.testType === 'aiti'}}" class="card" bindtap="onViewResult">
+        <view class="card-left">
+          <view class="result-badge {{latestResult.identity.level === 'S' ? 'badge-s' : latestResult.identity.level === 'A' ? 'badge-a' : 'badge-c'}}">
+            {{latestResult.identity.level}}
+          </view>
+          <view class="card-text-group">
+            <view class="card-title">{{latestResult.identity.name}}</view>
+            <view class="card-desc">{{latestResult.identity.alias}} · {{latestResult.identity.routeLabel}}</view>
+          </view>
         </view>
+        <view class="card-arrow">›</view>
       </view>
-      <view class="card-arrow">›</view>
-    </view>
 
-    <!-- 未测试时的提示卡片 -->
-    <view wx:if="{{!hasHistory}}" class="card card-empty">
-      <view class="card-left">
-        <view class="card-icon">📋</view>
-        <view class="card-text-group">
-          <view class="card-title">暂无测试记录</view>
-          <view class="card-desc">点击上方卡片开始你的第一次测试</view>
-        </view>
-      </view>
-    </view>
-
-  <!-- 牛马组合卡片 -->
-  <view class="card card-collection" bindtap="onViewCombination">
-    <view class="card-left">
-      <view class="card-icon">🤝</view>
-      <view class="card-text-group">
-        <view class="card-title">牛马组合</view>
-        <view class="card-desc">选择同事类型，测测你们的职场化学反应</view>
-      </view>
-    </view>
-    <view class="card-arrow">›</view>
-  </view>
-
-  <!-- 统计数据卡片 -->
-  <view class="card card-stats">
-    <view class="stats-row">
-      <view class="stat-item">
-        <view class="stat-num">{{totalTests}}</view>
-        <view class="stat-label">人已测试</view>
-      </view>
-      <view class="stat-divider"></view>
-      <view class="stat-item">
-        <view class="stat-num">16</view>
-        <view class="stat-label">种职场人格</view>
-      </view>
-      <view class="stat-divider"></view>
-      <view class="stat-item">
-        <view class="stat-num">35</view>
-        <view class="stat-label">道测试题目</view>
-      </view>
-    </view>
-  </view>
+    </block>
 
   </view>
 

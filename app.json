@@ -4,6 +4,8 @@
     "pages/skin/skin",
     "pages/test/test",
     "pages/result/result",
+    "pages/aiti-test/aiti-test",
+    "pages/aiti-result/aiti-result",
     "pages/ranking/ranking",
     "pages/profile/profile",
     "pages/collection/collection",
